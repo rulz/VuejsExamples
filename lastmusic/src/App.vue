@@ -3,12 +3,13 @@
     <img src="./assets/logo.png">
     <h2>LastFm Music</h2>
     <ul>
-      <li v-for="artist in artists">{{artist.name}}</li>
+      <artist v-for="art in artists" v-bind:art="art" v-bind:key="art.mbid"></artist>
     </ul>
   </div>
 </template>
 
 <script>
+import Artist from './components/Artist.vue'
 import getArtists from './api'
 
 export default {
@@ -17,6 +18,9 @@ export default {
     return {
       artists: []
     }
+  },
+  components: {
+    Artist: Artist
   },
   mounted: function () {
     const self = this
