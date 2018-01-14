@@ -12,4 +12,6 @@ npm install
 npm run dev
 ```
 
+**2. "Ver el proyecto [ir](https://rulz.github.io/VuejsExamples/lastmusic/)"**
+
 
