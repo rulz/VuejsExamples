@@ -9,12 +9,21 @@
 </template>
 
 <script>
+import getArtists from './api'
+
 export default {
   name: 'app',
   data () {
     return {
-      artists: [{name:'Juanes'},{name:'Eddie Vedder'},{name:'John Lennon'}]
+      artists: []
     }
+  },
+  mounted: function () {
+    const self = this
+    getArtists()
+      .then(function (artists) {
+        self.artists = artists
+      })
   }
 }
 </script>
