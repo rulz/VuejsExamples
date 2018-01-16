@@ -21,7 +21,7 @@
           <div class="column">
               <p>{{ searchMessage }}</p>
               <ul v-for='track in tracks'>
-                <li>{{ track.name }} - {{ track.artist }}</li>
+                <li>{{ track.name }} - {{ track.artists[0].name }}</li>
               </ul>
           </div>
 
@@ -33,11 +33,12 @@
 </template>
 
 <script>
-const tracks = [
-  { name: 'Muchacha', artist:'Luis Alberto Spinetta' },
-  { name: 'Un día normal', artist:'Juanes' },
-  { name: 'Rise', artist:'Eddie Vedder' },
-]
+import trackService from './services/track'
+// const tracks = [
+//   { name: 'Muchacha', artist:'Luis Alberto Spinetta' },
+//   { name: 'Un día normal', artist:'Juanes' },
+//   { name: 'Rise', artist:'Eddie Vedder' },
+// ]
 export default {
   name: 'app',
   data () {
@@ -53,7 +54,15 @@ export default {
   },
   methods: {
     search: function () {
-      this.tracks = tracks
+      if (!this.searchQuery) {
+        return ''
+      }
+      const self = this
+      //this.tracks = tracks
+      trackService.search(this.searchQuery)
+      .then(function(res) {
+        self.tracks = res.tracks.items
+      })
     }
   }
 }
