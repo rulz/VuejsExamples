@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    <music-header></music-header>
+    
     <section class="section">
       <nav class="nav has-shadow">
         <div class="container">
@@ -29,11 +31,14 @@
 
       </div>
     </section>
+    <music-footer></music-footer>
   </div>
 </template>
 
 <script>
-import trackService from './services/track'
+import trackService from './services/track.js'
+import musicFooter from './components/layout/Footer.vue'
+import musicHeader from './components/layout/Header.vue'
 // const tracks = [
 //   { name: 'Muchacha', artist:'Luis Alberto Spinetta' },
 //   { name: 'Un día normal', artist:'Juanes' },
@@ -41,6 +46,10 @@ import trackService from './services/track'
 // ]
 export default {
   name: 'app',
+  components: {
+    musicFooter: musicFooter,
+    musicHeader: musicHeader,
+  },
   data () {
     return {
       searchQuery: '',
