@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <music-header></music-header>
-    
-    <section class="section">
+    <music-loader v-show="isLoading"></music-loader>
+    <section class="section" v-show="!isLoading">
       <nav class="nav has-shadow">
         <div class="container">
           <input type="text" name=""
@@ -19,12 +19,11 @@
         </div>
       </nav>
       <div class="container results">
-        <div class="columns">
-          <div class="column">
-              <p>{{ searchMessage }}</p>
-              <ul v-for='track in tracks'>
-                <li>{{ track.name }} - {{ track.artists[0].name }}</li>
-              </ul>
+        <div class="columns is-multiline">
+          <div class="column is-one-quarter" v-for='t in tracks'>
+              <p><small>{{ searchMessage }}</small></p>
+              <music-track v-bind:track='t'></music-track>
+
           </div>
 
         </div>
@@ -36,9 +35,14 @@
 </template>
 
 <script>
-import trackService from './services/track.js'
-import musicFooter from './components/layout/Footer.vue'
-import musicHeader from './components/layout/Header.vue'
+import trackService from '@/services/track.js'
+import MusicFooter from '@/components/layout/Footer.vue'
+import MusicHeader from '@/components/layout/Header.vue'
+
+import MusicTrack from '@/components/Track.vue'
+
+import MusicLoader from '@/components/shared/Loader.vue'
+
 // const tracks = [
 //   { name: 'Muchacha', artist:'Luis Alberto Spinetta' },
 //   { name: 'Un día normal', artist:'Juanes' },
@@ -47,13 +51,16 @@ import musicHeader from './components/layout/Header.vue'
 export default {
   name: 'app',
   components: {
-    musicFooter: musicFooter,
-    musicHeader: musicHeader,
+    MusicFooter: MusicFooter,
+    MusicHeader: MusicHeader,
+    MusicTrack: MusicTrack,
+    MusicLoader: MusicLoader
   },
   data () {
     return {
       searchQuery: '',
-      tracks: []
+      tracks: [],
+      isLoading: false
     }
   },
   computed: {
@@ -67,10 +74,12 @@ export default {
         return ''
       }
       const self = this
-      //this.tracks = tracks
+      this.isLoading = true
+      this.tracks = []
       trackService.search(this.searchQuery)
       .then(function(res) {
         self.tracks = res.tracks.items
+        self.isLoading = false
       })
     }
   }
