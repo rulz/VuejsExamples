@@ -22,7 +22,7 @@
         <div class="columns is-multiline">
           <div class="column is-one-quarter" v-for='t in tracks'>
               <p><small>{{ searchMessage }}</small></p>
-              <music-track v-bind:track='t'></music-track>
+              <music-track v-bind:class="{ 'is-active':t.id === selectedTrack }" v-bind:track='t' v-on:select='setSelectedTrack'></music-track>
 
           </div>
 
@@ -60,7 +60,8 @@ export default {
     return {
       searchQuery: '',
       tracks: [],
-      isLoading: false
+      isLoading: false,
+      selectedTrack: ''
     }
   },
   computed: {
@@ -81,6 +82,9 @@ export default {
         self.tracks = res.tracks.items
         self.isLoading = false
       })
+    },
+    setSelectedTrack: function (id) {
+      this.selectedTrack = id
     }
   }
 }
@@ -91,5 +95,8 @@ export default {
 
   .results {
     margin-top:50px;
+  }
+  .is-active {
+    border: 3px #23d160 solid;
   }
 </style>

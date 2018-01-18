@@ -26,7 +26,7 @@
         <nav class="level">
           <div class="level-left">
             <a href="#" class="level-item">
-              <span class="icon is-small">play</span>
+              <span class="icon is-small" v-on:click="selectTrack">play</span>
             </a>
           </div>
         </nav>
@@ -39,6 +39,11 @@
 export default {
   props: {
     track: { type: Object, required: true }
+  },
+  methods: {
+    selectTrack: function () {
+      this.$emit('select', this.track.id)
+    }
   }
 }
 </script>

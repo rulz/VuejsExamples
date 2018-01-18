@@ -8,7 +8,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .loader {
   color: #34495f;
   font-size: 90px;
