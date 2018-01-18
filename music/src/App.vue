@@ -1,6 +1,9 @@
 <template>
   <div id="app">
     <music-header></music-header>
+    <music-notification v-show="showNotification">
+      <p slot="body">No se encontrado resultados</p>
+    </music-notification>
     <music-loader v-show="isLoading"></music-loader>
     <section class="section" v-show="!isLoading">
       <nav class="nav has-shadow">
@@ -40,7 +43,7 @@ import MusicFooter from '@/components/layout/Footer.vue'
 import MusicHeader from '@/components/layout/Header.vue'
 
 import MusicTrack from '@/components/Track.vue'
-
+import MusicNotification from '@/components/shared/Notification.vue'
 import MusicLoader from '@/components/shared/Loader.vue'
 
 // const tracks = [
@@ -54,19 +57,30 @@ export default {
     MusicFooter: MusicFooter,
     MusicHeader: MusicHeader,
     MusicTrack: MusicTrack,
-    MusicLoader: MusicLoader
+    MusicLoader: MusicLoader,
+    MusicNotification: MusicNotification
   },
   data () {
     return {
       searchQuery: '',
       tracks: [],
       isLoading: false,
+      showNotification: false,
       selectedTrack: ''
     }
   },
   computed: {
     searchMessage: function () {
       return `Encontrados: ${this.tracks.length}`
+    }
+  },
+  watch: {
+    showNotification: function () {
+      if (this.showNotification) {
+        setTimeout(() => {
+          this.showNotification = false
+        }, 3000)
+      }
     }
   },
   methods: {
@@ -79,6 +93,7 @@ export default {
       this.tracks = []
       trackService.search(this.searchQuery)
       .then(function(res) {
+        self.showNotification = res.tracks.total === 0
         self.tracks = res.tracks.items
         self.isLoading = false
       })
