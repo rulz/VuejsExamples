@@ -2,6 +2,12 @@
 Ejemplos Vue.js
 ==========
 
+sudo pip install nodeenv
+
+nodeenv nombre
+
+. nombre/bin/activate
+
 **1. "instalar [webpack-simple](https://github.com/vuejs-templates/webpack-simple)"**
 en consola colocar:
 ```
